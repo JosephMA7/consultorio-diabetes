@@ -18,6 +18,48 @@
             color: white;
             padding: 1rem;
         }
+        .container {
+            margin: 2rem auto;
+            padding: 1rem;
+            width: 80%;
+        }
+        .section {
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .section h2 {
+            color: #7266BA;
+        }
+        .chatbot-call-to-action {
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #FE3791;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 1rem;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background-color: #7266BA;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         .chatbot-container {
             margin: 2rem auto;
             padding: 1rem;
@@ -27,25 +69,6 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-        .section {
-            margin: 2rem auto;
-            padding: 1rem;
-            background-color: white;
-            width: 80%;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #7266BA;
-        }
-        ul {
-            text-align: left;
-            list-style: none;
-            padding: 0;
-        }
-        ul li {
-            margin-bottom: 0.5rem;
-        }
     </style>
 </head>
 <body>
@@ -53,49 +76,43 @@
         <h1>Consultorio para Personas Diabéticas</h1>
     </header>
 
-    <div class="chatbot-container">
-        <h2>¡Bienvenido al Chatbot del Consultorio!</h2>
-        <p>Interactúa con nuestro chatbot para obtener información personalizada.</p>
-        <div id="chatbot"></div>
-    </div>
+    <div class="container">
+        <!-- Introducción sobre la diabetes -->
+        <div class="section">
+            <h2>¿Qué es la Diabetes?</h2>
+            <p>La diabetes es una enfermedad crónica que ocurre cuando el cuerpo no puede regular adecuadamente los niveles de azúcar (glucosa) en la sangre. Puede afectar la calidad de vida, pero con el manejo adecuado, es posible llevar una vida plena y saludable.</p>
+        </div>
 
-    <!-- Sección de servicios -->
-    <div class="section">
-        <h2>Nuestros Servicios</h2>
-        <ul>
-            <li>Asesoramiento en el manejo de la diabetes.</li>
-            <li>Dietas personalizadas.</li>
-            <li>Educación sobre el control de la glucosa.</li>
-            <li>Planes de ejercicio físico adaptados.</li>
-        </ul>
-    </div>
+        <!-- Mitos y verdades -->
+        <div class="section">
+            <h2>Mitos y Verdades sobre la Diabetes</h2>
+            <ul>
+                <li><strong>Mito:</strong> Comer dulces siempre causa diabetes.<br>
+                    <strong>Verdad:</strong> No es solo por el azúcar; factores como la genética y el estilo de vida también son importantes.</li>
+                <li><strong>Mito:</strong> La diabetes solo afecta a las personas mayores.<br>
+                    <strong>Verdad:</strong> Puede presentarse a cualquier edad, incluso en niños.</li>
+            </ul>
+        </div>
 
-    <!-- Sección de consejos -->
-    <div class="section">
-        <h2>Consejos para Diabéticos</h2>
-        <ul>
-            <li>Mantén un control regular de tus niveles de glucosa.</li>
-            <li>Realiza actividad física al menos 30 minutos al día.</li>
-            <li>Sigue una dieta equilibrada y evita alimentos procesados.</li>
-            <li>Consulta a tu médico regularmente.</li>
-        </ul>
-    </div>
+        <!-- Consejos para manejar la diabetes -->
+        <div class="section">
+            <h2>Consejos para el Manejo de la Diabetes</h2>
+            <ul>
+                <li>Controla tus niveles de glucosa con regularidad.</li>
+                <li>Sigue una dieta equilibrada con el apoyo de un profesional.</li>
+                <li>Realiza ejercicio físico de forma constante.</li>
+                <li>Consulta a tu médico para ajustes en medicamentos o tratamiento.</li>
+            </ul>
+        </div>
 
-    <!-- Nueva sección de mitos y verdades -->
-    <div class="section">
-        <h2>Mitos y Verdades sobre la Diabetes</h2>
-        <p>Conoce algunos de los mitos más comunes sobre la diabetes y la realidad detrás de ellos:</p>
-        <ul>
-            <li><strong>Mito:</strong> Comer demasiado azúcar causa diabetes.<br>
-                <strong>Verdad:</strong> La diabetes tipo 1 es causada por factores genéticos y autoinmunes, y la tipo 2 está relacionada con el estilo de vida y factores genéticos.
-            </li>
-            <li><strong>Mito:</strong> Las personas con diabetes no pueden comer carbohidratos.<br>
-                <strong>Verdad:</strong> Pueden comer carbohidratos en cantidades controladas como parte de una dieta equilibrada.</li>
-            <li><strong>Mito:</strong> La diabetes se puede curar con dietas milagrosas.<br>
-                <strong>Verdad:</strong> No existe una cura; sin embargo, la diabetes se puede manejar con un estilo de vida saludable y medicamentos.</li>
-            <li><strong>Mito:</strong> Solo las personas mayores desarrollan diabetes.<br>
-                <strong>Verdad:</strong> La diabetes puede afectar a personas de cualquier edad, incluidos niños y jóvenes.</li>
-        </ul>
+        <!-- Llamado a interactuar con el chatbot -->
+        <div class="chatbot-container">
+            <h2>¡Hablemos! 🤖</h2>
+            <p>¿Tienes dudas? Nuestro chatbot puede responder tus preguntas sobre la diabetes, ayudarte con consejos personalizados y mucho más.</p>
+            <p class="chatbot-call-to-action">¡Interactúa con el chatbot ahora y obtén la ayuda que necesitas!</p>
+            <a class="button" href="#chatbot">Hablar con el Chatbot</a>
+            <div id="chatbot"></div>
+        </div>
     </div>
 
     <script type="text/javascript">
