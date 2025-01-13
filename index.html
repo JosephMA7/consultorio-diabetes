@@ -114,7 +114,60 @@
             <div id="chatbot"></div>
         </div>
     </div>
+    <h2>Formulario para Subir PDF</h2>
+    <form id="uploadForm" method="POST">
+        <label for="archivo">Selecciona un archivo PDF:</label>
+        <input type="file" id="archivo" name="archivo" accept="application/pdf" required><br><br>
 
+        <button type="submit">Subir</button>
+    </form>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const archivo = document.getElementById('archivo').files[0];
+
+            if (archivo) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64File = e.target.result.split(',')[1];
+
+                    // Obtener la fecha y hora actual
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, '0');
+                    const day = String(now.getDate()).padStart(2, '0');
+                    const formattedDate = `${year}/${month}/${day}`;
+
+                    const data = {
+                        file: base64File,
+                        filename: archivo.name,
+                        filetype: archivo.type,
+                        fecha: formattedDate
+                    };
+
+                    fetch('https://hook.us2.make.com/i5usq01qix8rrwjmskfx0ukrgadrlav7', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert('Archivo subido exitosamente');
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('Error al subir el archivo');
+                    });
+                };
+                reader.readAsDataURL(archivo);
+            }
+        });
+    </script>
     <script type="text/javascript">
       (function(d, t) {
           var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
