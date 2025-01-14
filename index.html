@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultorio para Personas Diabéticas Loja</title>
+    <title>Consultorio para Personas Diabéticas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,22 +24,21 @@
             width: 80%;
         }
         .section {
-            margin: 2rem 0;
-            padding: 1rem;
+            margin: 3rem 0;
+            padding: 2rem;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: left;
+            text-align: center;
         }
         .section h2 {
             color: #7266BA;
-        }
-        .chatbot-call-to-action {
-            margin-top: 1rem;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #FE3791;
             text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .section p, .section ul {
+            text-align: justify;
+            line-height: 1.8;
         }
         ul {
             list-style: none;
@@ -48,40 +47,47 @@
         ul li {
             margin-bottom: 1rem;
         }
-        .button {
-            display: inline-block;
-            margin-top: 1rem;
+        .chatbot-container {
+            margin-top: 4rem;
+            padding: 2rem;
+            position: relative;
+        }
+        .arrow {
+            font-size: 3rem;
+            color: #FE3791;
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+        }
+        .upload-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .upload-section label {
+            font-weight: bold;
+            color: #7266BA;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .upload-section input[type="file"] {
+            margin: 1rem 0;
+        }
+        .upload-section button {
             padding: 0.8rem 1.5rem;
             background-color: #7266BA;
             color: white;
             font-size: 1rem;
             font-weight: bold;
-            text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        form {
-            margin: 2rem 0;
-            text-align: left;
-        }
-        form label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        form input[type="file"] {
-            margin-bottom: 1rem;
-        }
-        form button {
-            padding: 0.8rem 1.5rem;
-            background-color: #7266BA;
-            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
+            transition: background-color 0.3s;
         }
-        form button:hover {
+        .upload-section button:hover {
             background-color: #5a4d99;
         }
     </style>
@@ -92,13 +98,29 @@
     </header>
 
     <div class="container">
-        <!-- Secciones omitidas para brevedad -->
-        <h2>Formulario para Subir PDF</h2>
-        <form id="uploadForm" method="POST">
-            <label for="archivo">Selecciona un archivo PDF:</label>
-            <input type="file" id="archivo" name="archivo" accept="application/pdf" required><br><br>
-            <button type="submit">Subir</button>
-        </form>
+        <!-- Sección para subir un archivo PDF -->
+        <div class="upload-section">
+            <h2>Sube tu archivo PDF</h2>
+            <form id="uploadForm" method="POST">
+                <label for="archivo">Selecciona un archivo PDF:</label>
+                <input type="file" id="archivo" name="archivo" accept="application/pdf" required><br>
+                <button type="submit">Subir Archivo</button>
+            </form>
+        </div>
+
+        <!-- Introducción sobre la diabetes -->
+        <div class="section">
+            <h2>¿Qué es la Diabetes?</h2>
+            <p>La diabetes es una enfermedad crónica que ocurre cuando el cuerpo no puede regular adecuadamente los niveles de azúcar (glucosa) en la sangre. Puede afectar la calidad de vida, pero con el manejo adecuado, es posible llevar una vida plena y saludable.</p>
+        </div>
+
+        <!-- Chatbot -->
+        <div class="chatbot-container">
+           <h2>¡Hablemos! 🤖</h2>
+            <p>¿Tienes dudas? Nuestro chatbot puede responder tus preguntas sobre la diabetes, ayudarte con consejos personalizados y mucho más.</p>
+            <span class="arrow">→</span>
+            <div id="chatbot"></div>
+        </div>
     </div>
 
     <script>
@@ -108,17 +130,16 @@
             const archivo = document.getElementById('archivo').files[0];
 
             if (archivo) {
-                if (archivo.type !== 'application/pdf') {
-                    alert('Solo se permiten archivos PDF.');
-                    return;
-                }
-
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const base64File = e.target.result.split(',')[1];
 
+                    // Obtener la fecha y hora actual
                     const now = new Date();
-                    const formattedDate = now.toISOString().split('T')[0];
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, '0');
+                    const day = String(now.getDate()).padStart(2, '0');
+                    const formattedDate = `${year}/${month}/${day}`;
 
                     const data = {
                         file: base64File,
@@ -129,40 +150,24 @@
 
                     fetch('https://hook.us2.make.com/i5usq01qix8rrwjmskfx0ukrgadrlav7', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify(data)
                     })
-                    .then(response => {
-                        if (!response.ok) throw new Error('Error en la respuesta del servidor.');
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
-                        console.log('Éxito:', data);
-                        alert('Archivo subido exitosamente.');
+                        console.log('Success:', data);
+                        alert('Archivo subido exitosamente');
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error('Error:', error);
-                        alert('Error al subir el archivo. Por favor, intenta de nuevo.');
+                        alert('Error al subir el archivo');
                     });
                 };
                 reader.readAsDataURL(archivo);
             }
         });
-    </script>
-    <script type="text/javascript">
-        (function(d, t) {
-            const v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-            v.onload = function() {
-                window.voiceflow.chat.load({
-                    verify: { projectID: '677a04a96d6d3e9cf792ffec' },
-                    url: 'https://general-runtime.voiceflow.com',
-                    versionID: 'production'
-                });
-            }
-            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
-            v.type = "text/javascript"; 
-            s.parentNode.insertBefore(v, s);
-        })(document, 'script');
     </script>
 </body>
 </html>
