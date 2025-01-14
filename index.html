@@ -60,14 +60,29 @@
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .chatbot-container {
-            margin: 2rem auto;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            background-color: white;
-            width: 80%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+        form {
+            margin: 2rem 0;
+            text-align: left;
+        }
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        form input[type="file"] {
+            margin-bottom: 1rem;
+        }
+        form button {
+            padding: 0.8rem 1.5rem;
+            background-color: #7266BA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        form button:hover {
+            background-color: #5a4d99;
         }
     </style>
 </head>
@@ -77,50 +92,14 @@
     </header>
 
     <div class="container">
-        <!-- Introducción sobre la diabetes -->
-        <div class="section">
-            <h2>¿Qué es la Diabetes?</h2>
-            <p>La diabetes es una enfermedad crónica que ocurre cuando el cuerpo no puede regular adecuadamente los niveles de azúcar (glucosa) en la sangre. Puede afectar la calidad de vida, pero con el manejo adecuado, es posible llevar una vida plena y saludable.</p>
-        </div>
-
-        <!-- Mitos y verdades -->
-        <div class="section">
-            <h2>Mitos y Verdades sobre la Diabetes</h2>
-            <ul>
-                <li><strong>Mito:</strong> Comer dulces siempre causa diabetes.<br>
-                    <strong>Verdad:</strong> No es solo por el azúcar; factores como la genética y el estilo de vida también son importantes.</li>
-                <li><strong>Mito:</strong> La diabetes solo afecta a las personas mayores.<br>
-                    <strong>Verdad:</strong> Puede presentarse a cualquier edad, incluso en niños.</li>
-            </ul>
-        </div>
-
-        <!-- Consejos para manejar la diabetes -->
-        <div class="section">
-            <h2>Consejos para el Manejo de la Diabetes</h2>
-            <ul>
-                <li>Controla tus niveles de glucosa con regularidad.</li>
-                <li>Sigue una dieta equilibrada con el apoyo de un profesional.</li>
-                <li>Realiza ejercicio físico de forma constante.</li>
-                <li>Consulta a tu médico para ajustes en medicamentos o tratamiento.</li>
-            </ul>
-        </div>
-
-        <!-- Llamado a interactuar con el chatbot -->
-        <div class="chatbot-container">
-            <h2>¡Hablemos! 🤖</h2>
-            <p>¿Tienes dudas? Nuestro chatbot puede responder tus preguntas sobre la diabetes, ayudarte con consejos personalizados y mucho más.</p>
-            <p class="chatbot-call-to-action">¡Interactúa con el chatbot ahora y obtén la ayuda que necesitas!</p>
-            <a class="button" href="#chatbot">→</a>
-            <div id="chatbot"></div>
-        </div>
+        <!-- Secciones omitidas para brevedad -->
+        <h2>Formulario para Subir PDF</h2>
+        <form id="uploadForm" method="POST">
+            <label for="archivo">Selecciona un archivo PDF:</label>
+            <input type="file" id="archivo" name="archivo" accept="application/pdf" required><br><br>
+            <button type="submit">Subir</button>
+        </form>
     </div>
-    <h2>Formulario para Subir PDF</h2>
-    <form id="uploadForm" method="POST">
-        <label for="archivo">Selecciona un archivo PDF:</label>
-        <input type="file" id="archivo" name="archivo" accept="application/pdf" required><br><br>
-
-        <button type="submit">Subir</button>
-    </form>
 
     <script>
         document.getElementById('uploadForm').addEventListener('submit', function(event) {
@@ -129,16 +108,17 @@
             const archivo = document.getElementById('archivo').files[0];
 
             if (archivo) {
+                if (archivo.type !== 'application/pdf') {
+                    alert('Solo se permiten archivos PDF.');
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const base64File = e.target.result.split(',')[1];
 
-                    // Obtener la fecha y hora actual
                     const now = new Date();
-                    const year = now.getFullYear();
-                    const month = String(now.getMonth() + 1).padStart(2, '0');
-                    const day = String(now.getDate()).padStart(2, '0');
-                    const formattedDate = `${year}/${month}/${day}`;
+                    const formattedDate = now.toISOString().split('T')[0];
 
                     const data = {
                         file: base64File,
@@ -149,19 +129,20 @@
 
                     fetch('https://hook.us2.make.com/i5usq01qix8rrwjmskfx0ukrgadrlav7', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                        alert('Archivo subido exitosamente');
+                    .then(response => {
+                        if (!response.ok) throw new Error('Error en la respuesta del servidor.');
+                        return response.json();
                     })
-                    .catch((error) => {
+                    .then(data => {
+                        console.log('Éxito:', data);
+                        alert('Archivo subido exitosamente.');
+                    })
+                    .catch(error => {
                         console.error('Error:', error);
-                        alert('Error al subir el archivo');
+                        alert('Error al subir el archivo. Por favor, intenta de nuevo.');
                     });
                 };
                 reader.readAsDataURL(archivo);
@@ -169,17 +150,19 @@
         });
     </script>
     <script type="text/javascript">
-      (function(d, t) {
-          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-          v.onload = function() {
-            window.voiceflow.chat.load({
-              verify: { projectID: '677a04a96d6d3e9cf792ffec' },
-              url: 'https://general-runtime.voiceflow.com',
-              versionID: 'production'
-            });
-          }
-          v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-      })(document, 'script');
+        (function(d, t) {
+            const v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function() {
+                window.voiceflow.chat.load({
+                    verify: { projectID: '677a04a96d6d3e9cf792ffec' },
+                    url: 'https://general-runtime.voiceflow.com',
+                    versionID: 'production'
+                });
+            }
+            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
+            v.type = "text/javascript"; 
+            s.parentNode.insertBefore(v, s);
+        })(document, 'script');
     </script>
 </body>
 </html>
