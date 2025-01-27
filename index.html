@@ -15,11 +15,18 @@
             text-align: center;
         }
         header {
-            background-color: #3F3F3F;
+            background-color: #7266BA; /* Color más claro para el header */
             color: white;
             padding: 1.5rem 0;
             font-size: 1.8rem;
             font-weight: bold;
+            position: sticky; /* Permite que el header se quede fijo al hacer scroll */
+            top: 0;
+            z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+            transition: background-color 0.3s ease;
+        }
+        header.scrolled {
+            background-color: #5f4b8b; /* Color más oscuro cuando se hace scroll */
         }
         .container {
             margin: 3rem auto;
@@ -106,7 +113,7 @@
     </style>
 </head>
 <body>
-    <header>
+    <header id="header">
         Consultorio para Personas Diabéticas
     </header>
 
@@ -145,19 +152,32 @@
             <div id="chatbot"></div>
         </div>
     </div>
-    </script>
+
     <script type="text/javascript">
-  (function(d, t) {
-      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-      v.onload = function() {
-        window.voiceflow.chat.load({
-          verify: { projectID: '67902b4fdc9c6740db0fce0c' },
-          url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production'
-        });
-      }
-      v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>
+        // Cambia el color de fondo del header al hacer scroll
+        window.onscroll = function() {
+            var header = document.getElementById("header");
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+    </script>
+
+    <script type="text/javascript">
+        (function(d, t) {
+            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function() {
+                window.voiceflow.chat.load({
+                    verify: { projectID: '67902b4fdc9c6740db0fce0c' },
+                    url: 'https://general-runtime.voiceflow.com',
+                    versionID: 'production'
+                });
+            }
+            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+        })(document, 'script');
+    </script>
 </body>
 </html>
+
