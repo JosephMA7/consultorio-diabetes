@@ -54,20 +54,17 @@
         }
         /* Estilos del chatbot */
         .chatbot-container {
-            position: fixed;
-            bottom: 20px; /* Espacio desde el borde inferior */
-            right: 20px; /* Espacio desde el borde derecho */
-            padding: 1rem;
-            background-color: #7266BA;
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-            font-size: 1.2rem;
-            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+            margin-top: 5rem;
+            padding: 3rem;
+            position: relative;
         }
         .arrow {
-            font-size: 2rem;
-            color: white;
+            font-size: 4rem;
+            color: #FE3791;
+            position: absolute;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
         }
         /* Estilos de la sección de subida de archivos */
         .upload-section {
@@ -140,28 +137,27 @@
             <p>La diabetes es una enfermedad crónica que ocurre cuando el cuerpo no puede regular adecuadamente los niveles de azúcar (glucosa) en la sangre. Puede afectar la calidad de vida, pero con el manejo adecuado, es posible llevar una vida plena y saludable.</p>
         </div>
 
+        <!-- Chatbot -->
+        <div class="chatbot-container">
+            <h2>¡Hablemos! 🤖</h2>
+            <p>¿Tienes dudas? Nuestro chatbot puede responder tus preguntas sobre la diabetes, ayudarte con consejos personalizados y mucho más.</p>
+            <span class="arrow">→</span>
+            <div id="chatbot"></div>
+        </div>
     </div>
-
-    <!-- Chatbot -->
-    <div class="chatbot-container">
-        <h2>¡Hablemos! 🤖</h2>
-        <p>¿Tienes dudas? Nuestro chatbot puede responder tus preguntas sobre la diabetes, ayudarte con consejos personalizados y mucho más.</p>
-        <span class="arrow">→</span>
-        <div id="chatbot"></div>
-    </div>
-
-    <script type="text/javascript">
-      (function(d, t) {
-          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-          v.onload = function() {
-            window.voiceflow.chat.load({
-              verify: { projectID: '67902b4fdc9c6740db0fce0c' },
-              url: 'https://general-runtime.voiceflow.com',
-              versionID: 'production'
-            });
-          }
-          v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-      })(document, 'script');
     </script>
+    <script type="text/javascript">
+  (function(d, t) {
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '67902b4fdc9c6740db0fce0c' },
+          url: 'https://general-runtime.voiceflow.com',
+          versionID: 'production'
+        });
+      }
+      v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+</script>
 </body>
 </html>
