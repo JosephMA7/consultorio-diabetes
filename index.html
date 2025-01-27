@@ -15,32 +15,23 @@
             text-align: center;
         }
         header {
-            background-color: #7266BA; /* Cambié el color a un tono más claro */
+            background-color: #7266BA; /* Color más claro para el header */
             color: white;
             padding: 1.5rem 0;
             font-size: 1.8rem;
             font-weight: bold;
-            position: fixed;
+            position: sticky; /* Permite que el header se quede fijo al hacer scroll */
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 10;
-            transition: top 0.3s;
+            z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+            transition: background-color 0.3s ease;
         }
-        /* Estilos para cuando el usuario hace scroll */
-        window.onscroll = function() {
-            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                document.querySelector('header').style.top = "-50px"; // Oculta el header
-            } else {
-                document.querySelector('header').style.top = "0"; // Muestra el header
-            }
-        };
-
+        header.scrolled {
+            background-color: #5f4b8b; /* Color más oscuro cuando se hace scroll */
+        }
         .container {
             margin: 3rem auto;
             padding: 2rem;
             max-width: 1200px;
-            padding-top: 5rem; /* Para que el contenido no se oculte detrás del header */
         }
         .section {
             margin: 3rem 0;
@@ -115,7 +106,6 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
-            margin-top: auto; /* Asegura que el botón quede en la parte inferior */
         }
         .upload-section button:hover {
             background-color: #FF1E68;
@@ -123,7 +113,7 @@
     </style>
 </head>
 <body>
-    <header>
+    <header id="header">
         Consultorio para Personas Diabéticas
     </header>
 
@@ -164,17 +154,29 @@
     </div>
 
     <script type="text/javascript">
-      (function(d, t) {
-          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-          v.onload = function() {
-            window.voiceflow.chat.load({
-              verify: { projectID: '67902b4fdc9c6740db0fce0c' },
-              url: 'https://general-runtime.voiceflow.com',
-              versionID: 'production'
-            });
-          }
-          v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-      })(document, 'script');
+        // Cambia el color de fondo del header al hacer scroll
+        window.onscroll = function() {
+            var header = document.getElementById("header");
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+    </script>
+
+    <script type="text/javascript">
+        (function(d, t) {
+            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function() {
+                window.voiceflow.chat.load({
+                    verify: { projectID: '67902b4fdc9c6740db0fce0c' },
+                    url: 'https://general-runtime.voiceflow.com',
+                    versionID: 'production'
+                });
+            }
+            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+        })(document, 'script');
     </script>
 </body>
 </html>
