@@ -6,35 +6,38 @@
     <title>Consultorio para Personas Diabéticas</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
             color: #333;
             margin: 0;
             padding: 0;
-            text-align: center;
         }
         header {
-            background-color: #7266BA;
+            background-color: #3F3F3F;
             color: white;
-            padding: 1rem;
+            padding: 2rem;
+            text-align: center;
         }
         .container {
+            width: 90%;
+            max-width: 1200px;
             margin: 2rem auto;
-            padding: 1rem;
-            width: 80%;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #7266BA;
+            border-bottom: 2px solid #FE3791;
+            padding-bottom: 0.5rem;
+            text-align: center;
         }
         .section {
-            margin: 3rem 0;
+            margin: 2rem 0;
             padding: 2rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .section h2 {
-            color: #7266BA;
-            text-align: center;
-            margin-bottom: 1.5rem;
+            background-color: #fff;
+            border-left: 5px solid #FE3791;
         }
         .section p, .section ul {
             text-align: justify;
@@ -44,51 +47,23 @@
             list-style: none;
             padding: 0;
         }
-        ul li {
-            margin-bottom: 1rem;
-        }
-        .chatbot-container {
-            margin-top: 4rem;
-            padding: 2rem;
-            position: relative;
-        }
-        .arrow {
-            font-size: 3rem;
+        ul li::before {
+            content: '✔ ';
             color: #FE3791;
-            position: absolute;
-            top: 50%;
-            right: 10%;
-            transform: translateY(-50%);
-        }
-        .upload-section {
-            margin: 3rem 0;
-            padding: 2rem;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .upload-section label {
             font-weight: bold;
-            color: #7266BA;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        .upload-section input[type="file"] {
-            margin: 1rem 0;
         }
         .upload-section button {
-            padding: 0.8rem 1.5rem;
-            background-color: #7266BA;
+            padding: 1rem 2rem;
+            background: linear-gradient(90deg, #7266BA, #FE3791);
             color: white;
             font-size: 1rem;
-            font-weight: bold;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: opacity 0.3s;
         }
         .upload-section button:hover {
-            background-color: #5a4d99;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -96,9 +71,7 @@
     <header>
         <h1>Consultorio para Personas Diabéticas</h1>
     </header>
-
     <div class="container">
-        <!-- Sección para subir un archivo PDF -->
         <div class="upload-section">
             <h2>Sube tu archivo PDF</h2>
             <form id="uploadForm" method="POST">
@@ -110,67 +83,15 @@
         <div class="section">
             <iframe src="https://calendar.google.com/calendar/embed?height=650&wkst=2&ctz=America%2FGuayaquil&showPrint=0&mode=WEEK&title=healtyWay&src=aGVhbHR5d2F5NTQ3QGdtYWlsLmNvbQ&src=ZXMtNDE5LmVjI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043" style="border:solid 1px #777" width="650" height="650" frameborder="0" scrolling="no"></iframe>
         </div>
-        <!-- Introducción sobre la diabetes -->
         <div class="section">
             <h2>¿Qué es la Diabetes?</h2>
-            <p>La diabetes es una enfermedad crónica que ocurre cuando el cuerpo no puede regular adecuadamente los niveles de azúcar (glucosa) en la sangre. Puede afectar la calidad de vida, pero con el manejo adecuado, es posible llevar una vida plena y saludable.</p>
+            <p>La diabetes es una enfermedad crónica que ocurre cuando el cuerpo no puede regular adecuadamente los niveles de azúcar en la sangre.</p>
         </div>
-
-        <!-- Chatbot -->
         <div class="chatbot-container">
-           <h2>¡Hablemos! 🤖</h2>
-            <p>¿Tienes dudas? Nuestro chatbot puede responder tus preguntas sobre la diabetes, ayudarte con consejos personalizados y mucho más.</p>
-            <span class="arrow">→</span>
-            <div id="chatbot"></div>
+            <h2>¡Hablemos! 🤖</h2>
+            <p>¿Tienes dudas? Nuestro chatbot puede responder tus preguntas sobre la diabetes.</p>
         </div>
     </div>
-
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const archivo = document.getElementById('archivo').files[0];
-
-            if (archivo) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64File = e.target.result.split(',')[1];
-
-                    // Obtener la fecha y hora actual
-                    const now = new Date();
-                    const year = now.getFullYear();
-                    const month = String(now.getMonth() + 1).padStart(2, '0');
-                    const day = String(now.getDate()).padStart(2, '0');
-                    const formattedDate = `${year}/${month}/${day}`;
-
-                    const data = {
-                        file: base64File,
-                        filename: archivo.name,
-                        filetype: archivo.type,
-                        fecha: formattedDate
-                    };
-
-                    fetch('https://hook.us2.make.com/i5usq01qix8rrwjmskfx0ukrgadrlav7', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                        alert('Archivo subido exitosamente');
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                        alert('Error al subir el archivo');
-                    });
-                };
-                reader.readAsDataURL(archivo);
-            }
-        });
-    </script>
     <script type="text/javascript">
   (function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
