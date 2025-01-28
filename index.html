@@ -59,20 +59,6 @@
         ul li {
             margin-bottom: 1.2rem;
         }
-        /* Estilos del chatbot */
-        .chatbot-container {
-            margin-top: 5rem;
-            padding: 3rem;
-            position: relative;
-        }
-        .arrow {
-            font-size: 4rem;
-            color: #FE3791;
-            position: absolute;
-            top: 50%;
-            right: 5%;
-            transform: translateY(-50%);
-        }
         /* Estilos de la sección de subida de archivos */
         .upload-section {
             margin: 3rem 0;
@@ -164,6 +150,28 @@
                 header.classList.remove("scrolled");
             }
         };
+    </script>
+
+    <script>
+        // Maneja el evento de submit para el formulario de subida de archivo
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto
+
+            const archivo = document.getElementById('archivo').files[0]; // Obtener el archivo
+
+            if (archivo) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64File = e.target.result.split(',')[1];
+
+                    // Aquí puedes enviar el archivo base64 al servidor o hacer lo que necesites
+                    console.log('Archivo subido:', base64File);
+                };
+                reader.readAsDataURL(archivo); // Leer el archivo como base64
+            } else {
+                alert('Por favor selecciona un archivo PDF.');
+            }
+        });
     </script>
 
     <script type="text/javascript">
